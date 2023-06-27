@@ -21,3 +21,8 @@ class EditOrderForm(ModelForm):
     class Meta:
         model = Order
         fields = ['status','payment_status']
+
+class MemberForm(ModelForm):
+    class Meta:
+        model = Member
+        fields = "__all__"

@@ -99,4 +99,8 @@ def product_details(request,product_id):
     return render(request,'users/productdetails.html',context)
 
 def aboutus(request):
-    return render(request, 'users/aboutus.html')
+    members = Member.objects.all()
+    context = {
+        'members':members
+    }
+    return render(request, 'users/aboutus.html', context)

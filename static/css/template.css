@@ -303,6 +303,8 @@ ul.social-icons li a:hover {
 	width: 75%;
 	overflow: hidden;
     height: 20vw;
+    margin-left: 60px;
+    margin-top: 25px;
     object-fit: fill;
 }
 
@@ -310,6 +312,7 @@ ul.social-icons li a:hover {
 	font-size: 17px;
 	color: #1a6692;
 	margin-bottom: 20px;
+    font-weight: 700;
 }
 
 .best-features ul.featured-list li {

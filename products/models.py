@@ -48,3 +48,14 @@ class Order(models.Model):
     contact_no = models.CharField(validators=[MinLengthValidator(9),MaxLengthValidator(10)], max_length=10)
     address = models.CharField(max_length=200, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
+
+    
+class Member(models.Model):
+    name = models.CharField(max_length=100)
+    position = models.CharField(max_length=100)
+    image = models.FileField(upload_to='static/uploads')
+    description = models.TextField()
+    facebook = models.URLField(max_length=200)
+    twitter = models.URLField(max_length=200)
+    linkdin = models.URLField(max_length=200)
+    created_at = models.DateTimeField(auto_now_add=True)

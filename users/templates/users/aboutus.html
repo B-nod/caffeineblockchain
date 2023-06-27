@@ -70,12 +70,43 @@
       </div>
       <div class="col-md-6">
         <div class="left-content">
-          <h4>Who we are &amp; What we do?</h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed voluptate nihil eum consectetur similique?
-            Consectetur, quod, incidunt, harum nisi dolores delectus reprehenderit voluptatem perferendis dicta dolorem
-            non blanditiis ex fugiat. Lorem ipsum dolor sit amet, consectetur adipisicing elit.<br><br>Lorem ipsum dolor
-            sit amet, consectetur adipisicing elit. Et, consequuntur, modi mollitia corporis ipsa voluptate corrupti eum
-            ratione ex ea praesentium quibusdam? Aut, in eum facere corrupti necessitatibus perspiciatis quis.</p>
+          <h4>About Us</h4>
+          <p>At CaffeineHead Blockchain Coffee, we are passionate about coffee and harnessing the power of blockchain technology to revolutionize the coffee industry. We believe in creating a transparent, sustainable, and fair coffee supply chain that benefits everyone involved, from farmers to consumers. <br>
+            Our mission is to connect coffee lovers with the stories behind their favorite brews. We are committed to promoting transparency, traceability, and ethical practices in the coffee industry. By leveraging blockchain technology, we empower farmers, roasters, and consumers to make informed decisions and contribute to a more equitable and sustainable coffee ecosystem.
+            </p>
+          <ul class="social-icons">
+            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6 pt-5">
+        <div class="right-content">
+          <h4 class="font-weight-bold" >Our Story and Mission</h4>
+          <p>Together, Brewing a better future, one cup at a time. From the iconic Sydney Opera House to hidden laneway cafes, every sip is a journey of transparency and trust. Through smart contracts and tokenization, they empowered coffee enthusiasts to support local farmers, ensuring fair trade and sustainability. As the aroma of freshly brewed coffee filled the air, CaffeineHead Blockchain Coffee Web 3 became synonymous with a vibrant and ethically-driven coffee scene in Sydney.<br>
+            Awaken your coffee business with CaffeineHead Blockchain Technology. Our revolutionary solution brings together the power of blockchain and the rich aroma of coffee. Trace every bean's journey from farm to cup, ensuring transparency and quality at every step. With a simple scan, customers indulge in the captivating story behind their favorite brews. Connect with passionate coffee lovers, build a loyal community, and empower sustainable choices. Stand out in the competitive market with our cutting-edge technology and elevate your coffee brand to new heights
+            
+            </p>
+         
+        </div>
+      </div>
+      <div class="col-md-6 pt-5">
+        <div class="left-image">
+          <img src="{% static 'images/1.jpg'%}" alt="">
+        </div>
+      </div>
+      <div class="col-md-6 pt-5">
+        <div class="right-image">
+          <img src="{% static 'images/1.jpg'%}" alt="">
+        </div>
+      </div>
+      <div class="col-md-6 pt-5">
+        <div class="left-content">
+          <h4>Join the CaffeineHead Community</h4>
+          <p>Become a part of the CaffeineHead community and embark on a journey to explore the world of specialty coffee like never before. With our commitment to transparency, sustainability, and exceptional taste, we invite you to join us in shaping a brighter future for coffee growers, consumers, and the planet. Indulge in the perfect cup of coffee while making a meaningful impact. Experience the union of great taste, technology, and social responsibility at CaffeineHead Blockchain Coffee. Start your coffee adventure with us today!
+            </p>
           <ul class="social-icons">
             <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
             <li><a href="#"><i class="fab fa-twitter"></i></a></li>
@@ -97,132 +128,29 @@
           <h2>Our Team Members</h2>
         </div>
       </div>
+      {% for member in members %}
       <div class="col-md-4">
         <div class="team-member">
           <div class="thumb-container">
-            <img src="{% static 'images/team_01.jpg'%}" alt="">
+            <img src="/{{member.image}}" alt="{{member.name}}">
             <div class="hover-effect">
               <div class="hover-content">
                 <ul class="social-icons">
-                  <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                  <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                  <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                  <li><a href="{{member.facebook}}"><i class="fab fa-facebook-f"></i></a></li>
+                  <li><a href="{{member.twitter}}"><i class="fab fa-twitter"></i></a></li>
+                  <li><a href="{{member.linkdin}}"><i class="fab fa-linkedin-in"></i></a></li>
                 </ul>
               </div>
             </div>
           </div>
           <div class="down-content">
-            <h4>Johnny William</h4>
-            <span>CO-Founder</span>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing itaque corporis nulla.</p>
+            <h4>{{member.name}}</h4>
+            <span>{{member.position}}</span>
+            <p>{{member.description}}</p>
           </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="team-member">
-          <div class="thumb-container">
-            <img src="{% static 'images/team_02.jpg'%}" alt="">
-            <div class="hover-effect">
-              <div class="hover-content">
-                <ul class="social-icons">
-                  <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                  <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                  <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="down-content">
-            <h4>Karry Pitcher</h4>
-            <span>Product Expert</span>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing itaque corporis nulla.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="team-member">
-          <div class="thumb-container">
-            <img src="{% static 'images/team_03.jpg'%}" alt="">
-            <div class="hover-effect">
-              <div class="hover-content">
-                <ul class="social-icons">
-                  <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                  <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                  <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="down-content">
-            <h4>Michael Soft</h4>
-            <span>Chief Marketing</span>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing itaque corporis nulla.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="team-member">
-          <div class="thumb-container">
-            <img src="{% static 'images/team_04.jpg'%}" alt="">
-            <div class="hover-effect">
-              <div class="hover-content">
-                <ul class="social-icons">
-                  <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                  <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                  <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="down-content">
-            <h4>Mary Cool</h4>
-            <span>Product Specialist</span>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing itaque corporis nulla.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="team-member">
-          <div class="thumb-container">
-            <img src="{% static 'images/team_05.jpg'%}" alt="">
-            <div class="hover-effect">
-              <div class="hover-content">
-                <ul class="social-icons">
-                  <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                  <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                  <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="down-content">
-            <h4>George Walker</h4>
-            <span>Product Photographer</span>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing itaque corporis nulla.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="team-member">
-          <div class="thumb-container">
-            <img src="{% static 'images/team_06.jpg'%}" alt="">
-            <div class="hover-effect">
-              <div class="hover-content">
-                <ul class="social-icons">
-                  <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                  <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                  <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="down-content">
-            <h4>Kate Town</h4>
-            <span>General Manager</span>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing itaque corporis nulla.</p>
-          </div>
-        </div>
-      </div>
+      {% endfor %}
     </div>
   </div>
 </div>

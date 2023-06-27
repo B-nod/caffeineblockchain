@@ -19,4 +19,8 @@ urlpatterns=[
     path('khalti_verify', views.khalti_verify),
     path('my_order',views.my_order),
     path('allorder',views.all_order),
+    path('addmember/', views.post_member),
+    path('updatemember/<int:member_id>', views.update_member),
+    path('deletemember/<int:member_id>', views.delete_member),
+    path('member/', views.show_member),
 ]

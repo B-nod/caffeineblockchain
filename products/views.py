@@ -64,6 +64,25 @@ def post_category(request):
 
 @login_required
 @admin_only
+def post_member(request):
+    if request.method == "POST":
+        form = MemberForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'member added')
+            return redirect('/products/addmember')
+        else:
+            messages.add_message(request,messages.ERROR,'Please verify forms fields. ')
+            return render(request,'products/addmember.html',{
+                'form':form
+                })
+    context = {
+            'form':MemberForm
+        }
+    return render(request,'products/addmember.html',context)
+
+@login_required
+@admin_only
 def update_product(request,product_id):
     instance = Product.objects.get(id=product_id)
     if request.method == 'POST':
@@ -91,6 +110,8 @@ def delete_product(request,product_id):
         messages.add_message(request,messages.SUCCESS,'product deleted')
         return redirect('/products')
 
+@login_required
+@admin_only
 def show_category(request):
     categories = Category.objects.all()
     context = {
@@ -126,6 +147,44 @@ def delete_category(request,category_id):
         category.delete()
         messages.add_message(request,messages.SUCCESS,'category deleted')
         return redirect('/products/category')
+
+@login_required
+@admin_only
+def show_member(request):
+    members = Member.objects.all()
+    context = {
+        'members': members
+    }
+    return render(request, 'products/allmember.html', context)
+
+@login_required
+@admin_only
+def update_member(request,member_id):
+    instance = Member.objects.get(id=member_id)
+    if request.method == 'POST':
+        form = MemberForm(request.POST, request.FILES, instance)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request,messages.SUCCESS,'Member added successfully')
+            return redirect('/products/member')
+        else:
+            messages.add_message(request,messages.ERROR,'please verify forms fields. ')
+            return render(request,'products/updatemember.html',{
+                'form':form
+            })
+    context = {
+            'form':MemberForm(instance=instance)
+        }
+    return render(request,'products/updatemember.html',context)
+
+@login_required
+@admin_only
+def delete_member(request,member_id):
+    member=Member.objects.get(id=member_id)
+    member.delete()
+    messages.add_message(request,messages.SUCCESS,'Member Deleted')
+    return redirect('/products/member')
+
 
 @login_required
 def add_to_cart(request,product_id):
