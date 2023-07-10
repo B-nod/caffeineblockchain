@@ -26,3 +26,16 @@ class MemberForm(ModelForm):
     class Meta:
         model = Member
         fields = "__all__"
+
+
+class AboutusForm(ModelForm):
+    class Meta:
+        model = Aboutus
+        fields = "__all__"
+    
+
+class ImagesliderForm(ModelForm):
+    class Meta:
+        model = Imageslider
+        fields = "__all__"
+

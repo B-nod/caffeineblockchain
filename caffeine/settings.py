@@ -40,13 +40,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #custom app
     'products',
+    'users',
+    'adminspage',
+
+    #package
     'bootstrapform',
     'crispy_forms',
     "crispy_bootstrap5",
-    'users',
-    'adminspage',
     'django_filters',
+
+    # Paypal Integration
+    'paypal.standard.ipn'
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -87,19 +94,32 @@ WSGI_APPLICATION = 'caffeine.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'caffeine_dbb',
+#         'USER':'root',
+#         'PASSWORD':'',
+#         'HOST':'localhost',
+#         'PORT':'3306',
+#         'OPTIONS':{
+#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+#         }
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'caffeine_dbb',
-        'USER':'root',
-        'PASSWORD':'',
-        'HOST':'localhost',
-        'PORT':'3306',
-        'OPTIONS':{
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
-        }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'caffeine_db',
+        'USER':'caffiene_user',
+        'PASSWORD':'12345',
+        'HOST':'127.0.0.1',
+        'PORT':'5432',
     }
 }
+
+
 
 
 # Password validation
@@ -147,3 +167,6 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+PAYPAL_RECEIVER_EMAIL = 'desphixsbusiness.paypal.com'
+PAYPAL_TEST = False

@@ -5,4 +5,6 @@ from .models import *
 admin.site.register(Product)
 admin.site.register(Category)
 admin.site.register(Member)
+admin.site.register(Aboutus)
+admin.site.register(Imageslider)
 

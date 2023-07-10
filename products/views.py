@@ -83,6 +83,44 @@ def post_member(request):
 
 @login_required
 @admin_only
+def post_aboutus(request):
+    if request.method == "POST":
+        form = AboutusForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'aboutus added')
+            return redirect('/products/addaboutus')
+        else:
+            messages.add_message(request,messages.ERROR,'Please verify forms fields. ')
+            return render(request,'products/addaboutus.html',{
+                'form':form
+                })
+    context = {
+            'form':AboutusForm
+        }
+    return render(request,'products/addaboutus.html',context)
+
+@login_required
+@admin_only
+def post_coverimage(request):
+    if request.method == "POST":
+        form = ImagesliderForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'coverimage added')
+            return redirect('/products/addcoverimage')
+        else:
+            messages.add_message(request,messages.ERROR,'Please verify forms fields. ')
+            return render(request,'products/addcoverimage.html',{
+                'form':form
+                })
+    context = {
+            'form':ImagesliderForm
+        }
+    return render(request,'products/addcoverimage.html',context)
+
+@login_required
+@admin_only
 def update_product(request,product_id):
     instance = Product.objects.get(id=product_id)
     if request.method == 'POST':
@@ -162,20 +200,22 @@ def show_member(request):
 def update_member(request,member_id):
     instance = Member.objects.get(id=member_id)
     if request.method == 'POST':
-        form = MemberForm(request.POST, request.FILES, instance)
+        form = MemberForm(request.POST, request.FILES, instance=instance)
         if form.is_valid():
             form.save()
-            messages.add_message(request,messages.SUCCESS,'Member added successfully')
+            messages.add_message(request, messages.SUCCESS,'Member updated')
             return redirect('/products/member')
         else:
             messages.add_message(request,messages.ERROR,'please verify forms fields. ')
             return render(request,'products/updatemember.html',{
                 'form':form
             })
-    context = {
-            'form':MemberForm(instance=instance)
-        }
+    context={
+        'form':MemberForm(instance=instance)
+    }
+
     return render(request,'products/updatemember.html',context)
+
 
 @login_required
 @admin_only
@@ -185,6 +225,82 @@ def delete_member(request,member_id):
     messages.add_message(request,messages.SUCCESS,'Member Deleted')
     return redirect('/products/member')
 
+@login_required
+@admin_only
+def show_aboutus(request):
+    aboutus = Aboutus.objects.all()
+    context = {
+        'aboutus':aboutus
+    }
+    return render(request, 'products/aboutuslist.html', context)
+
+@login_required
+@admin_only
+def update_aboutus(request,aboutus_id):
+    instance = Aboutus.objects.get(id=aboutus_id)
+    if request.method == 'POST':
+        form = AboutusForm(request.POST, request.FILES, instance=instance)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS,'Aboutus updated')
+            return redirect('/products/aboutus')
+        else:
+            messages.add_message(request,messages.ERROR,'please verify forms fields. ')
+            return render(request,'products/updateaboutus.html',{
+                'form':form
+            })
+    context={
+        'form':AboutusForm(instance=instance)
+    }
+
+    return render(request,'products/updateaboutus.html',context)
+
+
+@login_required
+@admin_only
+def delete_aboutus(request,aboutus_id):
+    aboutus=Aboutus.objects.get(id=aboutus_id)
+    aboutus.delete()
+    messages.add_message(request,messages.SUCCESS,'Aboutus Deleted')
+    return redirect('/products/aboutus')
+
+@login_required
+@admin_only
+def show_coverimage(request):
+    coverimage = Imageslider.objects.all()
+    context = {
+        'coverimage':coverimage
+    }
+    return render(request, 'products/coverimagelist.html', context)
+
+@login_required
+@admin_only
+def update_coverimage(request, imageslider_id):
+    instance = Imageslider.objects.get(id=imageslider_id)
+    if request.method == 'POST':
+        form = ImagesliderForm(request.POST, request.FILES, instance=instance)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS,'coverimage updated')
+            return redirect('/products/coverimage')
+        else:
+            messages.add_message(request,messages.ERROR,'please verify forms fields. ')
+            return render(request,'products/updatecoverimage.html',{
+                'form':form
+            })
+    context={
+        'form':ImagesliderForm(instance=instance)
+    }
+
+    return render(request,'products/updatecoverimage.html',context)
+
+@login_required
+@admin_only
+def delete_coverimage(request,imageslider_id):
+    imageslider=Imageslider.objects.get(id=imageslider_id)
+    imageslider.delete()
+    messages.add_message(request,messages.SUCCESS,'Coverimage Deleted')
+    return redirect('/products/coverimage')
 
 @login_required
 def add_to_cart(request,product_id):
@@ -252,19 +368,13 @@ def order_item_form(request,product_id,cart_id):
                 messages.add_message(request,messages.SUCCESS,'Order Successful')
                 return redirect('/products/my_order')
 
-            elif order.payment_method == 'Esewa':
+            elif order.payment_method == 'Paypal':
                 context={
                     'order':order,
                     'cart': cart_item
                 }
-                return render(request,'users/esewa_payment.html',context)
+                return render(request,'users/paypal_payment.html',context)
 
-            elif order.payment_method == 'Khalti':
-                context={
-                    'order':order,
-                    'cart': cart_item
-                }
-                return render(request,'users/khaltirequest.html',context)
             else:
                 message.add_message(request,messages.ERROR,'Something went wrong')
                 return render(request,'users/orderform.html',context)
@@ -273,6 +383,14 @@ def order_item_form(request,product_id,cart_id):
         'form': OrderForm
     }
     return render(request, 'users/orderform.html', context)
+
+
+def payment_completed_view(request):
+    return render (request, 'users/payment-complted.html')
+
+
+def payment_failed_view(request):
+    return render (request, 'users/payment-failed.html')
 
 import requests as req
 def esewa_verify(request):

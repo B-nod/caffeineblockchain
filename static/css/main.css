@@ -53,3 +53,9 @@ footer h5,
     height: 25vw;
     object-fit: contain;
 }
+@media (max-width: 992px) {
+    .nft-header{
+      height: 240px;
+    }
+    
+}

@@ -52,16 +52,19 @@ def logout_user(request):
 
 def homepage(request):
     products = Product.objects.all().order_by('-id')[:9]
+    coverimage = Imageslider.objects.all()
     if request.user.is_authenticated:
         user = request.user
     
         context = {
             'products':products,
+            'coverimage':coverimage,
 
         }
         return render(request,'users/index.html',context)
     context = {
-        'products':products
+        'products':products,
+        'coverimage':coverimage,
     }
     return render(request, 'users/index.html',context)
 

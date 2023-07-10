@@ -35,8 +35,7 @@ class Cart(models.Model):
 class Order(models.Model):
     PAYMENT = (
         ('Cash on Delivery','Cash on Delivery'),
-        ('Esewa','Esewa'),
-        ('Khalti', 'Khalti')
+        ('Paypal','Paypal'),
     )
     product=models.ForeignKey(Product,on_delete=models.CASCADE)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
@@ -59,3 +58,14 @@ class Member(models.Model):
     twitter = models.URLField(max_length=200)
     linkdin = models.URLField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
+
+class Aboutus(models.Model):
+    title = models.CharField(max_length=250)
+    image = models.FileField(upload_to='static/uploads')
+    description = models.TextField()
+    facebook = models.URLField(max_length=200)
+    twitter = models.URLField(max_length=200)
+    linkedin = models.URLField(max_length=200)
+
+class Imageslider(models.Model):
+    image = models.FileField(upload_to='static/uploads')
