@@ -31,7 +31,5 @@ urlpatterns=[
     path('member/', views.show_member),
     path('aboutus/', views.show_aboutus),
     path('coverimage/', views.show_coverimage),
-    path('paypal/', include('paypal.standard.ipn.urls')),
-    path('payment-completed/', views.payment_completed_view),
-    path('payment-failed/', views.payment_failed_view),
+    
 ]

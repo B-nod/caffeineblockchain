@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'django_filters',
 
     # Paypal Integration
-    'paypal.standard.ipn'
+    # 'paypal.standard.ipn'
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -108,16 +108,30 @@ WSGI_APPLICATION = 'caffeine.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'caffeine_db',
+#         'USER':'caffiene_user',
+#         'PASSWORD':'12345',
+#         'HOST':'127.0.0.1',
+#         'PORT':'5432',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'djongo',
         'NAME': 'caffeine_db',
-        'USER':'caffiene_user',
-        'PASSWORD':'12345',
-        'HOST':'127.0.0.1',
-        'PORT':'5432',
+        'CLIENT':{
+            'host': 'mongodb+srv://binodtamang245:<password>@cluster0.8gw40wv.mongodb.net/',
+            'username':'binodtamang245',
+            'password':'Binod12345'
+        }
     }
 }
+
+
 
 
 
@@ -168,5 +182,5 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-PAYPAL_RECEIVER_EMAIL = 'desphixsbusiness.paypal.com'
-PAYPAL_TEST = False
+# PAYPAL_RECEIVER_EMAIL = 'desphixsbusiness.paypal.com'
+# PAYPAL_TEST = False
