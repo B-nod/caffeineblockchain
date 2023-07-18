@@ -123,11 +123,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'caffeine_db',
-        'CLIENT':{
-            'host': 'mongodb+srv://binodtamang245:<password>@cluster0.8gw40wv.mongodb.net/',
-            'username':'binodtamang245',
-            'password':'Binod12345'
-        }
     }
 }
 
