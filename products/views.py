@@ -25,22 +25,21 @@ def index(request):
 @login_required
 @admin_only
 def post_product(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.add_message(request, messages.SUCCESS,'product added')
+            messages.add_message(request, messages.SUCCESS, 'Product added')
             return redirect('/products/addproduct')
         else:
-            messages.add_message(request,messages.ERROR,'please verify forms fields. ')
+            messages.add_message(request,messages.ERROR,'Please verify forms fields. ')
             return render(request,'products/addproduct.html',{
                 'form':form
-            })
+                })
     context = {
-        'form':ProductForm
-    }
-
-    return render(request, 'products/addproduct.html',context)
+            'form':ProductForm
+        }
+    return render(request,'products/addproduct.html',context)
 
 @login_required
 @admin_only
