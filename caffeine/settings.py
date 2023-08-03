@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'django_filters',
 
     # Paypal Integration
-    # 'paypal.standard.ipn'
+     'paypal.standard.ipn',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -108,6 +108,13 @@ WSGI_APPLICATION = 'caffeine.wsgi.application'
 #     }
 # }
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -119,12 +126,12 @@ WSGI_APPLICATION = 'caffeine.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'caffeine_db',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'djongo',
+#         'NAME': 'caffeine_db',
+#     }
+# }
 
 
 
@@ -177,5 +184,6 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# PAYPAL_RECEIVER_EMAIL = 'desphixsbusiness.paypal.com'
-# PAYPAL_TEST = False
+PAYPAL_RECEIVER_EMAIL = 'sb-pmllk26578065@business.example.com'
+
+PAYPAL_TEST = True

@@ -4,10 +4,13 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.validators import *
 from django.core import validators
+# from djongo import models
 
 User = get_user_model()
 
 # Create your models here.
+
+
 class Category(models.Model):
     category_name = models.CharField(max_length=100, unique=True)
     
@@ -22,13 +25,15 @@ class Product(models.Model):
     image = models.FileField(upload_to='static/uploads', null=True)
     description = models.TextField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    category = models.ForeignKey(Category,on_delete=models.CASCADE,null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.product_name
+    
+
 
 class Cart(models.Model):
-    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE,null=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     created_data = models.DateTimeField(auto_now_add=True)
 
@@ -37,7 +42,7 @@ class Order(models.Model):
         ('Cash on Delivery','Cash on Delivery'),
         ('Paypal','Paypal'),
     )
-    product=models.ForeignKey(Product,on_delete=models.CASCADE)
+    product=models.ForeignKey(Product,on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     quantity = models.IntegerField()
     total_price = models.IntegerField(null=True)

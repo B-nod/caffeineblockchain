@@ -10,6 +10,12 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from users.auth import admin_only
 from django.http import JsonResponse
+from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
+from decimal import Decimal
+from paypal.standard.forms import PayPalPaymentsForm
+from django.views.decorators.csrf import csrf_exempt
+
 
 # Create your views here.
 @login_required
@@ -35,7 +41,7 @@ def post_product(request):
             messages.add_message(request,messages.ERROR,'Please verify forms fields. ')
             return render(request,'products/addproduct.html',{
                 'form':form
-                })
+            })        
     context = {
             'form':ProductForm
         }
@@ -372,7 +378,7 @@ def order_item_form(request,product_id,cart_id):
                     'order':order,
                     'cart': cart_item
                 }
-                return render(request,'users/paypal_payment.html',context)
+                return render(request,'users/process_payment.html',context)
 
             else:
                 message.add_message(request,messages.ERROR,'Something went wrong')
@@ -384,42 +390,8 @@ def order_item_form(request,product_id,cart_id):
     return render(request, 'users/orderform.html', context)
 
 
-def payment_completed_view(request):
-    return render (request, 'users/payment-complted.html')
 
 
-def payment_failed_view(request):
-    return render (request, 'users/payment-failed.html')
-
-import requests as req
-def esewa_verify(request):
-    import xml.etree.ElementTree as ET
-    o_id = request.GET.get('oid')
-    amount = request.GET.get('amt')
-    refId = request.GET.get('refId')
-    url ="https://uat.esewa.com.np/epay/transrec"
-    d = {
-    'amt': amount,
-    'scd': 'EPAYTEST',
-    'rid': refId,
-    'pid': o_id,
-    }
-    resp = req.post(url, d)
-    root = ET.fromstring(resp.content)
-    status = root[0].text.strip()
-    if status == 'Success':
-        order_id = o_id.split("_")[0]
-        order = Order.objects.get(id=order_id)
-        order.payment_status = True
-        order.save()
-        cart_id=o_id.split("_")[1]
-        cart = Cart.objects.get(id=cart_id)
-        cart.delete()
-        messages.add_message(request,messages.SUCCESS,'Payment Successful')
-        return redirect('/products/mycart')
-    else:
-        messages.add_message(request,messages.ERROR,'Unable to make Payment')
-        return redirect('/products/mycart')
 
 @login_required
 def my_order(request):
@@ -441,40 +413,4 @@ def all_order(request):
     return render(request,'products/allorders.html',context)
 
 
-def khalti_request(request):
-   o_id = request.GET.get("o_id")
-   order = Order.objects.get(id=o_id)
-   context = {
-    "order": order
-   }
-   return render(request, "khaltirequest.html", context)
 
-import requests
-def khalti_verify(request):
-    token = request.GET.get("token")
-    amount = request.GET.get("amount")
-    o_id = request.GET.get("order_id")
-    print(token, amount, o_id)
-
-    url = "https://khalti.com/api/v2/payment/verify/"
-    payload = {
-    "token": token,
-    "amount": amount
-    }
-    headers = {
-    "Authorization": "Key test_secret_key_bc4da36aa89947f098cf60b00884f950"
-    }
-    order_obj = Order.objects.get(id=o_id)
-    response = requests.post(url, payload, headers = headers)
-    resp_dict = response.json()
-    if resp_dict.get("idx"):
-        success = True
-        order_obj.payment_status = True
-        order_obj.save() 
-    else:
-        success = False
-        
-    data = {
-        "success": success
-    } 
-    return JsonResponse(data)
