@@ -1,7 +1,8 @@
 from email import message
 from multiprocessing import context
 from tabnanny import check
-from django.shortcuts import redirect, render
+from django.shortcuts import render, HttpResponse, redirect, \
+    get_object_or_404, reverse
 from django.http import HttpResponse, JsonResponse
 from numpy import prod
 from .models import *
@@ -15,6 +16,7 @@ from django.conf import settings
 from decimal import Decimal
 from paypal.standard.forms import PayPalPaymentsForm
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 
 # Create your views here.
@@ -374,11 +376,14 @@ def order_item_form(request,product_id,cart_id):
                 return redirect('/products/my_order')
 
             elif order.payment_method == 'Paypal':
+                
                 context={
                     'order':order,
                     'cart': cart_item
                 }
-                return render(request,'users/process_payment.html',context)
+                request.session['order_id'] = order.id
+            
+                return render(request,'users/paypal_payment.html',context)
 
             else:
                 message.add_message(request,messages.ERROR,'Something went wrong')
@@ -389,6 +394,72 @@ def order_item_form(request,product_id,cart_id):
     }
     return render(request, 'users/orderform.html', context)
 
+def paypal_request(request):
+   o_id = request.GET.get("o_id")
+   order = Order.objects.get(id=o_id)
+   context = {
+    "order": order
+   }
+   return render(request, "paypal_payment.html", context)
+
+def complete_order(request):
+    body = json.loads(request.body)
+    o_id = request.GET.get('oid')
+    print('oid:', body)
+    Order.objects.filter(id=body['orderID']).update(payment_status=True)
+    cart = Cart.objects.get(id=body['cartID'])
+    cart.delete()
+    return JsonResponse('Payment completed!', safe=False)
+
+    
+
+
+def payment_success(request):
+   
+     messages.add_message(request,messages.SUCCESS,'Order Successful')
+     return redirect('/products/my_order')
+
+
+def payment_failed(request):
+
+    return render(request, 'users/payment-failed.html')
+
+
+def process_payment(request):
+    order_id = request.session.get('order_id')
+    order = get_object_or_404(Order, id=order_id)
+    host = request.get_host()
+    
+
+    paypal_dict = {
+        'business': settings.PAYPAL_RECEIVER_EMAIL,
+        'amount': '%.2f' % order.total_cost().quantize(
+            Decimal('.01')),
+        'item_name': 'Order {}'.format(order.id),
+        'invoice': str(order.id),
+        'currency_code': 'USD',
+        'notify_url': 'http://{}{}'.format(host,
+                                           reverse('paypal-ipn')),
+        'return_url': 'http://{}{}'.format(host,
+                                           reverse('payment_done')),
+        'cancel_return': 'http://{}{}'.format(host,
+                                              reverse('payment_cancelled')),
+    }
+    
+
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    print(form)
+    return render(request, 'users/aboutus.html', {'order': order, 'form': form})
+
+
+@csrf_exempt
+def payment_done(request):
+    return render(request, 'users/payment_done.html')
+
+
+@csrf_exempt
+def payment_canceled(request):
+    return render(request, 'users/payment_cancelled.html')
 
 
 
